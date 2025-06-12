@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chúc Mừng Sinh Nhật Chị Ngọc Tuyền 13/6</title>
+    <title>Chúc Mừng Sinh Nhật Chị Ngọc Tuyền :></title>
     <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
     <style>
         * {
@@ -489,19 +489,25 @@
             max-width: 800px;
             height: 70vh;
             position: relative;
+            display: flex; /* Dùng flexbox để căn giữa ảnh */
+            align-items: center; /* Căn giữa theo chiều dọc */
+            justify-content: center; /* Căn giữa theo chiều ngang */
         }
 
         .slider-image {
             width: 100%;
             height: 100%;
-            object-fit: contain;
+            object-fit: contain; /* Đảm bảo ảnh vừa khung mà không bị cắt hoặc méo */
             opacity: 0;
-            position: absolute;
+            position: absolute; /* Giữ nguyên position absolute */
             transition: opacity 0.8s ease-in-out; /* Smoother transition */
             cursor: pointer;
             border-radius: 10px; /* Thêm bo tròn nhẹ */
             box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3); /* Thêm bóng đổ nhẹ */
             border: 5px solid rgba(255, 255, 255, 0.7); /* Thêm viền trắng mỏng */
+            left: 0; /* Đảm bảo không bị lệch */
+            top: 0; /* Đảm bảo không bị lệch */
+            transform: none; /* Reset mọi transform có thể gây lệch */
         }
 
         .slider-image.active {
@@ -789,21 +795,27 @@
         }
 
         .card-message {
-            display: none;
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             background: rgba(0, 0, 0, 0.8);
+            display: flex;
             align-items: center;
             justify-content: center;
             z-index: 1001;
+            /* Đảm bảo ẩn khi không active */
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
         }
 
         .card-message.active {
-            display: flex;
+            opacity: 1;
+            pointer-events: auto;
         }
+
 
         .card-message-content {
             background: #fff;
@@ -937,7 +949,7 @@
         <div class="time" id="time"></div>
         <div class="date" id="date"></div>
         <div class="passcode-container">
-            <div class="passcode-error" id="passcodeError">Sai mật khẩu! Vui lòng thử lại.</div>
+            <div class="passcode-error" id="passcodeError">Sai mật khẩu! chị Vui lòng thử lại nhóeee.</div>
             <div class="passcode-input" aria-label="Nhập mật khẩu">
                 <div class="passcode-dot" aria-hidden="true"></div>
                 <div class="passcode-dot" aria-hidden="true"></div>
@@ -995,14 +1007,14 @@
             <div class="card-trigger" id="cardTrigger" role="button" aria-label="Mở thiệp chúc mừng">
                 <div class="card-envelope">
                     <div class="card-ribbon"></div>
-                    <div class="card-instruction">Nhấn vào đây để mở thiệp chúc mừng</div>
+                    <div class="card-instruction">Chị Nhấn vào đây để mở thiệp nha!!</div>
                 </div>
             </div>
         </div>
 
         <div class="card-container" id="cardContainer">
             <div class="card-quiz" id="cardQuiz">
-                <h2>Bạn mong muốn điều gì nhất trong cuộc sống?</h2>
+                <h2>Chị mong muốn điều gì nhất trong cuộc sống n</h2>
                 <div class="quiz-options">
                     <div class="quiz-option" data-answer="Cuộc sống hạnh phúc">Cuộc sống hạnh phúc</div>
                     <div class="quiz-option" data-answer="Bản thân khỏe mạnh">Bản thân khỏe mạnh</div>
@@ -1028,6 +1040,7 @@
                         Chúc mừng sinh nhật chị Ngọc Tuyền! Chúc chị luôn xinh đẹp, trẻ trung, thành công và gặt hái thật nhiều thành quả trong công việc, cuộc sống. 🥳<br>
                         Mong rằng chị sẽ có một ngày sinh nhật thật ý nghĩa bên gia đình và những người thân yêu. Luôn hạnh phúc và vui vẻ nhé! ❤️
                     </p>
+					<p class="signature">Ngày 13 tháng 6 năm 2025</p>
                     <p class="signature">Duy Khoa</p>
                 </div>
             </div>
@@ -1115,7 +1128,6 @@
             setTimeout(() => {
                 $('#lockScreen').style.opacity = '0';
                 $('#birthdayContainer').style.display = 'flex';
-                // Nhạc nền Happy Birthday sẽ phát khi mở thiệp (trong cardPaper click event)
                 createBalloons();
                 createFallingStars();
                 createHeartRain();
@@ -1308,8 +1320,11 @@
                 resetAutoSlide(); // Reset timer on manual interaction
             });
             $('.slider-container').addEventListener('click', (e) => {
-                goToSliderSlide((currentSliderIndex + 1) % galleryImagesData.length);
-                resetAutoSlide(); // Reset timer on manual interaction
+                // Only advance slide if click is on the image, not the container background
+                if (e.target.classList.contains('slider-image')) {
+                    goToSliderSlide((currentSliderIndex + 1) % galleryImagesData.length);
+                    resetAutoSlide(); // Reset timer on manual interaction
+                }
                 e.stopPropagation(); // Prevent closing gallery if clicking on image
             });
             $('#gallerySlider').addEventListener('click', (e) => { // Only close if clicking on the background
